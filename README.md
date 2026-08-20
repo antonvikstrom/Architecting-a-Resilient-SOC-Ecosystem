@@ -1,4 +1,3 @@
-```markdown
 # Project 1: Secure Enterprise Cyber Lab (pfSense, Active Directory & Splunk)
 
 A fully isolated, multi-tenant enterprise cyber lab built on Proxmox VE featuring virtual network segmentation, centralized pfSense routing, an Active Directory domain, a dedicated Splunk SIEM pipeline, and an isolated malware analysis clean room.
