@@ -4,7 +4,11 @@ A fully isolated, multi-tenant enterprise cyber lab built on Proxmox VE featurin
 
 ---
 
-## 🏗️ Network Architecture & Asset Inventory
+📄 **Complete Technical Report:** Download the full [Project 1 Writeup (PDF)](assets/Project1_Comprehensive_Report.pdf) for complete step-by-step implementation logs, extended troubleshooting notes, and diagrams.
+
+---
+
+## Network Architecture & Asset Inventory
 
 ![Lab Network Topology](assets/network-topology.png)
 
@@ -12,57 +16,32 @@ A fully isolated, multi-tenant enterprise cyber lab built on Proxmox VE featurin
 
 | Hostname | OS | IP Address | Subnet / Zone | Role |
 | --- | --- | --- | --- | --- |
-| `pfSense` | FreeBSD | `10.1.x.1` | Core Gateway | Central Router & Policy Firewall
-
- |
-| `oob-gateway` | Alpine Linux | `192.168.50.50` | Out-of-Band | WireGuard LXC Remote Management
-
- |
-| `splunk-siem` | Ubuntu Server | `10.1.1.10` | Server Vault (LAN) | Central Log Indexer & Analytics
-
- |
-| `dc01` | Windows Server 2022 | `10.1.1.20` | Server Vault (LAN) | Active Directory Domain Controller
-
- |
-| `jumpbox-01` | Windows 10 | `10.1.1.50` | Server Vault (LAN) | Hardened Management Workstation
-
- |
-| `vuln-web` | Ubuntu Server | `10.1.2.10` | DMZ (OPT1) | Dockerized Vulnerable Web Host (DVWA)
-
- |
-| `win10-client01` | Windows 10 | `10.1.3.100` | Target Zone (OPT2) | Domain-joined AD Endpoint
-
- |
-| `linux-client01` | Ubuntu Desktop | `10.1.3.150` | Target Zone (OPT2) | Linux Target Workstation
-
- |
-| `kali-attack` | Kali Linux | `10.1.4.100` | Attack Zone (OPT3) | Primary Adversary Emulation Workstation
-
- |
-| `c2-server` | Ubuntu Server | `10.1.4.150` | Attack Zone (OPT3) | Command & Control (Sliver C2)
-
- |
-| `osint` | Trace Labs OSINT | `10.1.4.200` | Attack Zone (OPT3) | Target Profiling Workstation
-
- |
-| `dfir-remnux` | REMnux | `10.1.5.100` | Clean Zone (OPT4) | Offline Malware Analysis Clean Room
-
- |
+| `pfSense` | FreeBSD | `10.1.x.1` | Core Gateway | Central Router & Policy Firewall |
+| `oob-gateway` | Alpine Linux | `192.168.50.50` | Out-of-Band | WireGuard LXC Remote Management |
+| `splunk-siem` | Ubuntu Server | `10.1.1.10` | Server Vault (LAN) | Central Log Indexer & Analytics |
+| `dc01` | Windows Server 2022 | `10.1.1.20` | Server Vault (LAN) | Active Directory Domain Controller |
+| `jumpbox-01` | Windows 10 | `10.1.1.50` | Server Vault (LAN) | Hardened Management Workstation |
+| `vuln-web` | Ubuntu Server | `10.1.2.10` | DMZ (OPT1) | Dockerized Vulnerable Web Host (DVWA) |
+| `win10-client01` | Windows 10 | `10.1.3.100` | Target Zone (OPT2) | Domain-joined AD Endpoint |
+| `linux-client01` | Ubuntu Desktop | `10.1.3.150` | Target Zone (OPT2) | Linux Target Workstation |
+| `kali-attack` | Kali Linux | `10.1.4.100` | Attack Zone (OPT3) | Primary Adversary Emulation Workstation |
+| `c2-server` | Ubuntu Server | `10.1.4.150` | Attack Zone (OPT3) | Command & Control (Sliver C2) |
+| `osint` | Trace Labs OSINT | `10.1.4.200` | Attack Zone (OPT3) | Target Profiling Workstation |
+| `dfir-remnux` | REMnux | `10.1.5.100` | Clean Zone (OPT4) | Offline Malware Analysis Clean Room |
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 project1-cyber-lab-infrastructure/
-├── assets/
-│   └── network-topology.png             # Full multi-zone topology diagram
+├── assets/                              # Topology diagrams and screenshots
 ├── configs/
 │   ├── inputs.conf                      # Splunk UF log channels & event ID blacklists
 │   ├── lxc-wireguard-passthrough.conf   # Alpine LXC /dev/net/tun passthrough settings
 │   └── netplan-static-ip.yaml           # Netplan network configs for Linux hosts
 ├── scripts/
-│   └── ad-management-launcher.ps1       # Non-domain-joined AD admin launcher
+│   └── ad-management-launcher.bat       # Non-domain-joined AD admin launcher
 └── README.md                            # Comprehensive engineering writeup
 
 ```
@@ -233,12 +212,12 @@ sudo ip addr flush dev ens18 && sudo netplan apply
 ### Network Boundary & Isolation Checks
 
 ```text
-[ Test Case ]                     [ Expected Outcome ]                      [ Status ]
+[ Test Case ]                      [ Expected Outcome ]                     [ Status ]
 --------------------------------------------------------------------------------------
-Kali -> DMZ (10.1.2.10:80)        HTTP 302 / 200 Success                   [ PASSED ]
-Kali -> DC (10.1.1.20) Ping       100% Packet Loss (Blocked by pfSense)    [ PASSED ]
-Kali -> Splunk (10.1.1.10:8000)   Connection Timed Out                     [ PASSED ]
-REM-nux -> Internet (1.1.1.1)     100% Packet Loss (Complete Egress Block) [ PASSED ]
+Kali -> DMZ (10.1.2.10:80)         HTTP 302 / 200 Success                   [ PASSED ]
+Kali -> DC (10.1.1.20) Ping        100% Packet Loss (Blocked by pfSense)    [ PASSED ]
+Kali -> Splunk (10.1.1.10:8000)    Connection Timed Out                     [ PASSED ]
+REM-nux -> Internet (1.1.1.1)      100% Packet Loss (Complete Egress Block) [ PASSED ]
 REM-nux -> Splunk (10.1.1.10:9997) TCP Port Open (Telemetry Streaming)      [ PASSED ]
 ```
 
@@ -249,7 +228,7 @@ REM-nux -> Splunk (10.1.1.10:9997) TCP Port Open (Telemetry Streaming)      [ PA
 
 ---
 
-## 💾 Storage Conversion & Snapshot Management
+## Storage Conversion & Snapshot Management
 
 ### RAW to QCOW2 Disk Conversion
 To enable Proxmox directory storage snapshotting, VM disk images were converted from RAW to QCOW2 format via the Proxmox CLI:
@@ -261,5 +240,3 @@ qm disk move 111 scsi0 samsung-t7 format qcow2 --delete 1
 ### Baseline Snapshot Policy (`Clean-Base`)
 Established a standardized baseline state across all lab VMs (`sec-pfsense`, `sec-splunk`, `win10-client01`, `kali-attacker01`, `dfir-remnux`).
 * **Snapshot Setting:** Unchecked **Include RAM** on all snapshots to maintain minimal storage footprints, guarantee rapid rollback times, and prevent stale socket restoration issues.
-
-```
