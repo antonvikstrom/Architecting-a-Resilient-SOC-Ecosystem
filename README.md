@@ -4,7 +4,7 @@ A fully isolated, multi-tenant enterprise cyber lab built on Proxmox VE featurin
 
 ---
 
-📄 **Complete Technical Report:** Download the full [Project 1 Writeup (PDF)](assets/Project1_Comprehensive_Report.pdf) for complete step-by-step implementation logs, extended troubleshooting notes, and diagrams.
+📄 **Complete Technical Report:** Download the full [Project 1 Writeup (PDF)](assets/project-1-writeup.pdf) for complete step-by-step implementation logs, extended troubleshooting notes, and diagrams.
 
 ---
 
