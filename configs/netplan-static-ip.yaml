@@ -1,0 +1,12 @@
+# /etc/netplan/50-cloud-init.yaml (DMZ Host Configuration - vuln-web)
+network:
+  version: 2
+  ethernets:
+    ens18:
+      addresses:
+        - 10.1.2.10/24
+      nameservers:
+        addresses: [10.1.2.1, 1.1.1.1]
+      routes:
+        - to: default
+          via: 10.1.2.1
