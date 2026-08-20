@@ -105,7 +105,7 @@ lxc.mount.entry: /dev/net dev/net none bind,create=dir
 * Built an unjoined Windows 10 admin workstation at `10.1.1.50`. Keeping the jump box unjoined prevents Domain Admin credential caching in memory.
 
 
-* Used a custom launcher script (`ad-management-launcher.ps1`) to securely invoke Remote Server Administration Tools (RSAT) via explicit network tokens.
+* Used a custom launcher script (`ad-management-launcher.bat`) to securely invoke Remote Server Administration Tools (RSAT) via explicit network tokens.
 
 
 
@@ -154,7 +154,7 @@ gpupdate /force
 * **Splunk License Tuning:** Suppressed high-volume noise (Windows Filtering Platform connection events) on `dc01` by adding event blacklists in `inputs.conf`:
 
 
-```
+```ini
 [WinEventLog://Security]
 index = windows
 disabled = false
